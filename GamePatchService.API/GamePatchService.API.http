@@ -1,0 +1,21 @@
+@GamePatchService.API_HostAddress = http://localhost:5082
+
+GET {{GamePatchService.API_HostAddress}}/api/games
+Accept: application/json
+
+###
+
+GET {{GamePatchService.API_HostAddress}}/api/games/1
+Accept: application/json
+
+###
+
+GET {{GamePatchService.API_HostAddress}}/api/games/1/patches/optimal?from=1.0.0&to=1.4.0
+Accept: application/json
+
+###
+
+GET {{GamePatchService.API_HostAddress}}/health
+Accept: application/json
+
+###
