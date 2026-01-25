@@ -1,128 +1,80 @@
 # GamePatchService
 
-A REST API for managing game patches and calculating optimal download paths. Built as a demonstration of graph algorithms applied to a practical software distribution problem.
+Backend API that calculates the smallest download path to update a game between versions.
 
-## Tech Stack
+## The Problem
 
-- .NET 8 / ASP.NET Core Web API
-- Entity Framework Core 8 with PostgreSQL
-- xUnit + Moq for testing
-- Docker Compose for local development
+Say you want to update a game from v1.0 to v1.4. You could download one big 800 MB patch. But maybe downloading two smaller patches (v1.0 -> v1.2 -> v1.4) only adds up to 450 MB. This API figures out which way is smaller.
 
-## Running Locally
+## Tech
 
-Start the PostgreSQL database:
+- .NET 8 / ASP.NET Core
+- PostgreSQL + Entity Framework Core
+- Docker
+- xUnit
 
+## Setup
+
+Start postgres:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
-Run the API:
-
+Run it:
 ```bash
 cd GamePatchService.API
 dotnet run
 ```
 
-The API will be available at `https://localhost:5001` (or check the console output for the actual port).
+Swagger docs at `http://localhost:5082/swagger`
 
-Swagger UI is available at `/swagger` in development mode.
+## Endpoints
 
-## API Endpoints
+**Games**
+- `GET /api/games` - list games
+- `GET /api/games/{id}` - get game with versions
+- `POST /api/games` - create game
 
-### Games
+**Versions**
+- `GET /api/games/{gameId}/versions` - list versions
+- `GET /api/games/{gameId}/versions/latest` - latest version
+- `POST /api/games/{gameId}/versions` - create version
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/games` | List all games |
-| GET | `/api/games/{id}` | Get game with its versions |
-| POST | `/api/games` | Create a new game |
+**Patches**
+- `GET /api/patches/{fromVersionId}/{toVersionId}` - get patch between versions
+- `GET /api/patches/{id}/download` - download patch
+- `POST /api/patches` - create patch
 
-### Versions
+**Optimal Path**
+- `GET /api/games/{gameId}/patches/optimal?from=1.0.0&to=1.4.0` - calculates cheapest path
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/games/{gameId}/versions` | List versions for a game |
-| GET | `/api/games/{gameId}/versions/latest` | Get the latest active version |
-| POST | `/api/games/{gameId}/versions` | Create a new version |
+**Other**
+- `GET /api/downloads/stats` - stats
+- `GET /health` - health check
 
-### Patches
+## Algorithm
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/patches/{fromVersionId}/{toVersionId}` | Get patch info between two versions |
-| GET | `/api/patches/{id}/download` | Get download info (creates download record) |
-| POST | `/api/patches` | Create a new patch |
+Versions are nodes, patches are edges, edge weights are file sizes. Dijkstra's algorithm finds the minimum weight path. Pretty standard graph stuff.
 
-### Optimal Path
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/games/{gameId}/patches/optimal?from=1.0.0&to=1.4.0` | Calculate optimal patch path |
-
-### Downloads
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/downloads/stats` | Download statistics |
-| PATCH | `/api/downloads/{id}/complete` | Mark download as completed |
-| PATCH | `/api/downloads/{id}/fail` | Mark download as failed |
-
-### Health
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/health` | Health check (includes DB connectivity) |
-
-## Patch Path Optimization
-
-The core feature is finding the minimum-size download path between two game versions. This matters because:
-
-- A direct patch from v1.0 to v1.4 might be 800 MB (lots of changed files)
-- But going v1.0 -> v1.2 -> v1.4 might only be 450 MB total (incremental changes)
-
-The algorithm models this as a shortest-path problem:
-
-- **Nodes**: Game versions
-- **Edges**: Available patches (directed, from older to newer)
-- **Weights**: Patch file sizes in bytes
-
-We use Dijkstra's algorithm with a priority queue to find the path that minimizes total download size. The algorithm runs in O((V + E) log V) time where V is the number of versions and E is the number of patches.
-
-### Example
-
-For a game with patches structured like:
-
-```
-        1.1
-       /150\ 200
-    1.0     1.4
-       \200/ 250
-        1.2
-```
-
-The optimal path from 1.0 to 1.4 would be 1.0 -> 1.2 -> 1.4 (450 MB) rather than 1.0 -> 1.1 -> 1.4 (350 MB)... wait, actually in this case the top path wins. The algorithm handles all these cases correctly regardless of the graph structure.
-
-## Project Structure
+## Structure
 
 ```
 GamePatchService/
-  GamePatchService.API/        # Controllers, Program.cs
-  GamePatchService.Core/       # Models, interfaces, services
-  GamePatchService.Data/       # EF Core DbContext, repositories
-  GamePatchService.Tests/      # Unit tests
+  GamePatchService.API/      # controllers, startup
+  GamePatchService.Core/     # models, interfaces, path service
+  GamePatchService.Data/     # ef core, repositories  
+  GamePatchService.Tests/    # tests
 ```
 
-## Running Tests
+## Tests
 
 ```bash
 dotnet test
 ```
 
-## Future Improvements
+## Would be nice to add
 
-- Add authentication/authorization for admin endpoints (creating games, versions, patches)
-- Implement actual file storage and streaming for patch downloads (currently just returns metadata)
-- Add caching for the optimal path calculation since the patch graph doesn't change frequently
-- Support for rollback patches (going from newer to older versions)
-- Rate limiting on the download endpoint
+- Auth on admin endpoints
+- Actually serve patch files instead of just metadata
+- Cache results
+- Downgrade support
