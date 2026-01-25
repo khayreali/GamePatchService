@@ -71,10 +71,3 @@ GamePatchService/
 ```bash
 dotnet test
 ```
-
-## Would be nice to add
-
-- Auth on admin endpoints
-- Actually serve patch files instead of just metadata
-- Cache results
-- Downgrade support
