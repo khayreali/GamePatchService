@@ -48,20 +48,4 @@ public class VersionRepository : IVersionRepository
         await _db.SaveChangesAsync();
         return version;
     }
-
-    public async Task UpdateAsync(GameVersion version)
-    {
-        _db.Entry(version).State = EntityState.Modified;
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        var version = await _db.GameVersions.FindAsync(id);
-        if (version != null)
-        {
-            _db.GameVersions.Remove(version);
-            await _db.SaveChangesAsync();
-        }
-    }
 }

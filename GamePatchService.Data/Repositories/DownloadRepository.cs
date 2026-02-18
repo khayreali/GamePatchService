@@ -8,9 +8,9 @@ public class DownloadRepository : IDownloadRepository
 {
     private readonly GamePatchDbContext _db;
 
-    public DownloadRepository(GamePatchDbContext db)
+    public DownloadRepository(GamePatchDbContext dbContext)
     {
-        _db = db;
+        _db = dbContext;
     }
 
     public async Task<DownloadRecord?> GetByIdAsync(int id)
@@ -28,24 +28,6 @@ public class DownloadRepository : IDownloadRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<DownloadRecord>> GetByStatusAsync(DownloadStatus status)
-    {
-        return await _db.DownloadRecords
-            .Include(d => d.PatchFile)
-            .Where(d => d.Status == status)
-            .OrderByDescending(d => d.StartedAt)
-            .ToListAsync();
-    }
-
-    public async Task<IEnumerable<DownloadRecord>> GetRecentAsync(int count)
-    {
-        return await _db.DownloadRecords
-            .Include(d => d.PatchFile)
-            .OrderByDescending(d => d.StartedAt)
-            .Take(count)
-            .ToListAsync();
-    }
-
     public async Task<DownloadRecord> AddAsync(DownloadRecord record)
     {
         _db.DownloadRecords.Add(record);
@@ -57,15 +39,5 @@ public class DownloadRepository : IDownloadRepository
     {
         _db.Entry(record).State = EntityState.Modified;
         await _db.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        var record = await _db.DownloadRecords.FindAsync(id);
-        if (record != null)
-        {
-            _db.DownloadRecords.Remove(record);
-            await _db.SaveChangesAsync();
-        }
     }
 }

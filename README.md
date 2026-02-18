@@ -62,7 +62,7 @@ Versions are nodes, patches are edges, edge weights are file sizes. Dijkstra's a
 GamePatchService/
   GamePatchService.API/      # controllers, startup
   GamePatchService.Core/     # models, interfaces, path service
-  GamePatchService.Data/     # ef core, repositories  
+  GamePatchService.Data/     # ef core, repositories
   GamePatchService.Tests/    # tests
 ```
 

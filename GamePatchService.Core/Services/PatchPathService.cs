@@ -14,11 +14,7 @@ public class PatchPathService : IPatchPathService
         _patches = patches;
     }
 
-    /*
-     * Uses Dijkstra's algorithm to find the minimum-size patch path.
-     * Versions are nodes, patches are directed edges, file sizes are weights.
-     * Returns the sequence of patches that minimizes total download size.
-     */
+    // Dijkstra's over the patch graph, weighted by file size.
     public async Task<PatchPathResult> GetOptimalPatchPathAsync(int gameId, string fromVersion, string toVersion)
     {
         var sourceVersion = await _versions.GetByVersionNumberAsync(gameId, fromVersion);

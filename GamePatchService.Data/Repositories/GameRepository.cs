@@ -6,52 +6,36 @@ namespace GamePatchService.Data.Repositories;
 
 public class GameRepository : IGameRepository
 {
-    private readonly GamePatchDbContext _db;
+    private readonly GamePatchDbContext _context;
 
     public GameRepository(GamePatchDbContext db)
     {
-        _db = db;
+        _context = db;
     }
 
     public async Task<Game?> GetByIdAsync(int id)
     {
-        return await _db.Games.FindAsync(id);
+        return await _context.Games.FindAsync(id);
     }
 
     public async Task<Game?> GetByIdWithVersionsAsync(int id)
     {
-        return await _db.Games
+        return await _context.Games
             .Include(g => g.Versions.OrderByDescending(v => v.ReleasedAt))
             .FirstOrDefaultAsync(g => g.Id == id);
     }
 
     public async Task<IEnumerable<Game>> GetAllAsync()
     {
-        return await _db.Games
+        return await _context.Games
             .OrderBy(g => g.Title)
             .ToListAsync();
     }
 
     public async Task<Game> AddAsync(Game game)
     {
-        _db.Games.Add(game);
-        await _db.SaveChangesAsync();
+        _context.Games.Add(game);
+        await _context.SaveChangesAsync();
         return game;
-    }
-
-    public async Task UpdateAsync(Game game)
-    {
-        _db.Entry(game).State = EntityState.Modified;
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(int id)
-    {
-        var game = await _db.Games.FindAsync(id);
-        if (game != null)
-        {
-            _db.Games.Remove(game);
-            await _db.SaveChangesAsync();
-        }
     }
 }

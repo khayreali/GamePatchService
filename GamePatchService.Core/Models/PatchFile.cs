@@ -7,7 +7,7 @@ public class PatchFile
     public int ToVersionId { get; set; }
     public string FileName { get; set; } = string.Empty;
     public long SizeBytes { get; set; }
-    public string Checksum { get; set; } = string.Empty;
+    public string Checksum { get; set; } = "";
     public DateTime CreatedAt { get; set; }
 
     public GameVersion FromVersion { get; set; } = null!;
