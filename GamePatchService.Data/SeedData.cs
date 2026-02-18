@@ -56,27 +56,27 @@ public static class SeedData
         // Crab Nebula patches — graph with multiple paths for optimization testing
         var cnPatches = new List<PatchFile>
         {
-            new() { FromVersionId = cn100.Id, ToVersionId = cn140.Id, FileName = "cn_1.0.0_to_1.4.0.patch", SizeBytes = 800_000_000, Checksum = "a1b2c3d4", CreatedAt = DateTime.UtcNow.AddDays(-14) },
-            new() { FromVersionId = cn100.Id, ToVersionId = cn110.Id, FileName = "cn_1.0.0_to_1.1.0.patch", SizeBytes = 150_000_000, Checksum = "e5f6a7b8", CreatedAt = DateTime.UtcNow.AddMonths(-5) },
-            new() { FromVersionId = cn110.Id, ToVersionId = cn120.Id, FileName = "cn_1.1.0_to_1.2.0.patch", SizeBytes = 120_000_000, Checksum = "c9d0e1f2", CreatedAt = DateTime.UtcNow.AddMonths(-4) },
-            new() { FromVersionId = cn120.Id, ToVersionId = cn130.Id, FileName = "cn_1.2.0_to_1.3.0.patch", SizeBytes = 180_000_000, Checksum = "34ab56cd", CreatedAt = DateTime.UtcNow.AddMonths(-2) },
-            new() { FromVersionId = cn130.Id, ToVersionId = cn140.Id, FileName = "cn_1.3.0_to_1.4.0.patch", SizeBytes = 100_000_000, Checksum = "78ef90gh", CreatedAt = DateTime.UtcNow.AddDays(-14) },
-            new() { FromVersionId = cn100.Id, ToVersionId = cn120.Id, FileName = "cn_1.0.0_to_1.2.0.patch", SizeBytes = 200_000_000, Checksum = "ij12kl34", CreatedAt = DateTime.UtcNow.AddMonths(-4) },
-            new() { FromVersionId = cn120.Id, ToVersionId = cn140.Id, FileName = "cn_1.2.0_to_1.4.0.patch", SizeBytes = 250_000_000, Checksum = "mn56op78", CreatedAt = DateTime.UtcNow.AddDays(-14) },
+            new() { FromVersionId = cn100.Id, ToVersionId = cn140.Id, FileName = "cn_1.0.0_to_1.4.0.patch", SizeBytes = 800_000_000, Checksum = "9f3a7c2e", CreatedAt = DateTime.UtcNow.AddDays(-14) },
+            new() { FromVersionId = cn100.Id, ToVersionId = cn110.Id, FileName = "cn_1.0.0_to_1.1.0.patch", SizeBytes = 150_000_000, Checksum = "d41b08fa", CreatedAt = DateTime.UtcNow.AddMonths(-5) },
+            new() { FromVersionId = cn110.Id, ToVersionId = cn120.Id, FileName = "cn_1.1.0_to_1.2.0.patch", SizeBytes = 120_000_000, Checksum = "7e2f91cb", CreatedAt = DateTime.UtcNow.AddMonths(-4) },
+            new() { FromVersionId = cn120.Id, ToVersionId = cn130.Id, FileName = "cn_1.2.0_to_1.3.0.patch", SizeBytes = 180_000_000, Checksum = "b50ca63d", CreatedAt = DateTime.UtcNow.AddMonths(-2) },
+            new() { FromVersionId = cn130.Id, ToVersionId = cn140.Id, FileName = "cn_1.3.0_to_1.4.0.patch", SizeBytes = 100_000_000, Checksum = "2d8e4f17", CreatedAt = DateTime.UtcNow.AddDays(-14) },
+            new() { FromVersionId = cn100.Id, ToVersionId = cn120.Id, FileName = "cn_1.0.0_to_1.2.0.patch", SizeBytes = 200_000_000, Checksum = "c83f20b6", CreatedAt = DateTime.UtcNow.AddMonths(-4) },
+            new() { FromVersionId = cn120.Id, ToVersionId = cn140.Id, FileName = "cn_1.2.0_to_1.4.0.patch", SizeBytes = 250_000_000, Checksum = "5a19d4e8", CreatedAt = DateTime.UtcNow.AddDays(-14) },
         };
 
         // Frostpunk — linear chain + one skip
         var fpPatches = new List<PatchFile>
         {
-            new() { FromVersionId = fp100.Id, ToVersionId = fp101.Id, FileName = "fp_1.0.0_to_1.0.1.patch", SizeBytes = 50_000_000, Checksum = "fp1a2b3c", CreatedAt = DateTime.UtcNow.AddMonths(-2) },
-            new() { FromVersionId = fp101.Id, ToVersionId = fp110.Id, FileName = "fp_1.0.1_to_1.1.0.patch", SizeBytes = 450_000_000, Checksum = "fp4d5e6f", CreatedAt = DateTime.UtcNow.AddMonths(-1) },
-            new() { FromVersionId = fp100.Id, ToVersionId = fp110.Id, FileName = "fp_1.0.0_to_1.1.0.patch", SizeBytes = 480_000_000, Checksum = "fp7g8h9i", CreatedAt = DateTime.UtcNow.AddMonths(-1) },
+            new() { FromVersionId = fp100.Id, ToVersionId = fp101.Id, FileName = "fp_1.0.0_to_1.0.1.patch", SizeBytes = 50_000_000, Checksum = "e7b3d912", CreatedAt = DateTime.UtcNow.AddMonths(-2) },
+            new() { FromVersionId = fp101.Id, ToVersionId = fp110.Id, FileName = "fp_1.0.1_to_1.1.0.patch", SizeBytes = 450_000_000, Checksum = "41f6a0c8", CreatedAt = DateTime.UtcNow.AddMonths(-1) },
+            new() { FromVersionId = fp100.Id, ToVersionId = fp110.Id, FileName = "fp_1.0.0_to_1.1.0.patch", SizeBytes = 480_000_000, Checksum = "8c2de57b", CreatedAt = DateTime.UtcNow.AddMonths(-1) },
         };
 
         // Turbo Snails — single hotfix
         var tsPatches = new List<PatchFile>
         {
-            new() { FromVersionId = ts100.Id, ToVersionId = ts101.Id, FileName = "ts_1.0.0_to_1.0.1.patch", SizeBytes = 25_000_000, Checksum = "ts0a1b2c", CreatedAt = DateTime.UtcNow.AddDays(-7) },
+            new() { FromVersionId = ts100.Id, ToVersionId = ts101.Id, FileName = "ts_1.0.0_to_1.0.1.patch", SizeBytes = 25_000_000, Checksum = "f04b7e39", CreatedAt = DateTime.UtcNow.AddDays(-7) },
         };
 
         db.PatchFiles.AddRange(cnPatches);
