@@ -1,4 +1,4 @@
-# GamePatchService
+# Game Patch Service
 
 Backend API that calculates the smallest download path to update a game between versions.
 
